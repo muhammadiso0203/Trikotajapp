@@ -15,7 +15,7 @@ export class SalaryService {
   ) {}
 
   async createSalary(
-    userId: string,
+    userId: number,
     amount: number,
     month: string,
     paidDate: string,
@@ -32,14 +32,14 @@ export class SalaryService {
     await this.salaryRepo.save(salary);
   }
 
-  async getUserSalaries(userId: string) {
+  async getUserSalaries(userId: number) {
     return this.salaryRepo.find({
       where: { user: { id: userId } },
       order: { paid_date: 'DESC' },
     });
   }
 
-  async getSalaryByMonth(userId: string, month: Date) {
+  async getSalaryByMonth(userId: number, month: Date) {
     return this.salaryRepo.findOne({
       where: { user: { id: userId }, month },
     });

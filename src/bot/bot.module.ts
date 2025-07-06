@@ -11,11 +11,13 @@ import { RecordsEntity } from 'src/entities/records.entity';
 import { SalaryEntity } from 'src/entities/salary.entity';
 import { RecordService } from 'src/Service/record.service';
 import { SalaryService } from 'src/Service/salary.service';
+import { SewingEntity } from 'src/entities/sawing.entity';
+import { SewingService } from 'src/Service/sawing.service';
 
 @Module({
   imports: [
     ConfigModule.forRoot({isGlobal: true}),
-    TypeOrmModule.forFeature([UsersEntity, ProductEntity, RecordsEntity, SalaryEntity]),
+    TypeOrmModule.forFeature([UsersEntity, ProductEntity, RecordsEntity, SalaryEntity, SewingEntity]),
     TelegrafModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -24,6 +26,6 @@ import { SalaryService } from 'src/Service/salary.service';
       }),
     }),
   ],
-  providers: [BotService, UserService, ProductService, RecordService, SalaryService],
+  providers: [BotService, UserService, ProductService, RecordService, SalaryService, SewingService],
 })
 export class BotModule {}

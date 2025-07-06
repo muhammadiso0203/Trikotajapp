@@ -8,6 +8,8 @@ import {
 } from 'typeorm';
 import { RecordsEntity } from './records.entity';
 import { SalaryEntity } from './salary.entity';
+import { SewingEntity } from './sawing.entity';
+import { ProductEntity } from './product.entity';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -15,8 +17,8 @@ export enum UserRole {
 }
 @Entity('users')
 export class UsersEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn({type: 'bigint'})
+  id: number;
 
   @Column()
   full_name: string;
@@ -28,7 +30,7 @@ export class UsersEntity {
   phone_number: string;
 
   @Column({type: 'bigint'})
-  telegramId: number
+  telegramId: number;
 
   @Column({ type: 'enum', enum: UserRole, default: UserRole.WORKER })
   role: string;
@@ -38,6 +40,12 @@ export class UsersEntity {
 
   @OneToMany(() => SalaryEntity, (salary) => salary.user)
   salaries: SalaryEntity[];
+
+  @OneToMany(() => SewingEntity, (sewing) => sewing.user)
+  sewing: SewingEntity[];
+
+  @OneToMany(() => ProductEntity, (product) => product.user)
+  product: ProductEntity[];
 
   @CreateDateColumn()
   created_at: Date;

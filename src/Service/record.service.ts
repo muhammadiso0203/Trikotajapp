@@ -17,7 +17,7 @@ export class RecordService {
     private readonly productRepo: Repository<ProductEntity>,
   ) {}
 
-  async createRecord(userId: string, productId: string, quantity: number) {
+  async createRecord(userId: number, productId: string, quantity: number) {
     const user = await this.userRepo.findOne({ where: { id: userId } });
     if (!user) {
       throw new NotFoundException('User not found');
@@ -49,7 +49,7 @@ export class RecordService {
     });
   }
 
-  async getuserStatistic(userId: string) {
+  async getuserStatistic(userId: number) {
     const record = await this.recordRepo.find({
       where: { user: { id: userId } },
     });

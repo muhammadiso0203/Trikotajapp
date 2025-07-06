@@ -11,28 +11,42 @@ export class UserService {
   ) {}
 
   async createIfNotExists(
-  phone: string,
-  full_name: string,
-  username: string,
-  telegramId: number,
-) {
-  const existing = await this.UserRepo.findOne({
-    where: { telegramId },
-  });
+    phone: string,
+    full_name: string,
+    username: string,
+    telegramId: number,
+  ) {
+    const existing = await this.UserRepo.findOne({
+      where: { telegramId },
+    });
 
-  if (existing) return existing;
+    if (existing) return existing;
 
-  const user = this.UserRepo.create({
-    full_name,
-    username,
-    phone_number: phone,
-    telegramId,
-    role: 'worker',
-  });
+    const user = this.UserRepo.create({
+      full_name,
+      username,
+      phone_number: phone,
+      telegramId,
+      role: 'worker',
+    });
 
-  return await this.UserRepo.save(user);
-}
+    return await this.UserRepo.save(user);
+  }
 
+  async create(data: {
+    full_name: string;
+    telegram_id: number;
+    phone_number: string;
+  }) {
+    const newUser = this.UserRepo.create({
+      full_name: data.full_name,
+      telegramId: data.telegram_id,
+      phone_number: data.phone_number,
+      role: 'worker', 
+    });
+
+    return this.UserRepo.save(newUser);
+  }
 
   async getByPhone(phone_number: string) {
     const user = await this.UserRepo.findOne({ where: { phone_number } });
@@ -49,10 +63,9 @@ export class UserService {
     });
   }
 
-async getByTelegramId(telegramId: number) {
-  return this.UserRepo.findOne({ where: { telegramId: telegramId } });
-}
-
+  async getByTelegramId(telegramId: number) {
+    return this.UserRepo.findOne({ where: { telegramId: telegramId } });
+  }
 
   async deleteWorker(id: string) {
     const worker = await this.UserRepo.delete(id);
